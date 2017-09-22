@@ -27,6 +27,7 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger1.annotations.EnableSwagger;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.petstore.controller.PetController;
+import springfoxdemo.boot.swagger.web.CategoryController;
 import springfoxdemo.boot.swagger.web.FileUploadController;
 import springfoxdemo.boot.swagger.web.HomeController;
 
@@ -41,9 +42,10 @@ import static springfox.documentation.builders.PathSelectors.*;
 @EnableSwagger //Enable swagger 1.2 spec
 @EnableSwagger2 //Enable swagger 2.0 spec
 @ComponentScan(basePackageClasses = {
-        PetController.class,
-        HomeController.class,
-        FileUploadController.class
+    PetController.class,
+    HomeController.class,
+    FileUploadController.class,
+    CategoryController.class
 })
 public class Application {
     public static void main(String[] args) {
@@ -53,35 +55,35 @@ public class Application {
     @Bean
     public Docket petApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("full-petstore-api")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(petstorePaths())
-                .build()
-                .securitySchemes(newArrayList(oauth()))
-                .securityContexts(newArrayList(securityContext()));
+            .groupName("full-petstore-api")
+            .apiInfo(apiInfo())
+            .select()
+            .paths(petstorePaths())
+            .build()
+            .securitySchemes(newArrayList(oauth()))
+            .securityContexts(newArrayList(securityContext()));
     }
 
     @Bean
     public Docket categoryApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("category-api")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(categoryPaths())
-                .build()
-                .ignoredParameterTypes(ApiIgnore.class)
-                .enableUrlTemplating(true);
+            .groupName("category-api")
+            .apiInfo(apiInfo())
+            .select()
+            .paths(categoryPaths())
+            .build()
+            .ignoredParameterTypes(ApiIgnore.class)
+            .enableUrlTemplating(true);
     }
 
     @Bean
     public Docket multipartApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("multipart-api")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(multipartPaths())
-                .build();
+            .groupName("multipart-api")
+            .apiInfo(apiInfo())
+            .select()
+            .paths(multipartPaths())
+            .build();
     }
 
     private Predicate<String> categoryPaths() {
@@ -96,31 +98,31 @@ public class Application {
     public Docket userApi() {
         AuthorizationScope[] authScopes = new AuthorizationScope[1];
         authScopes[0] = new AuthorizationScopeBuilder()
-                .scope("read")
-                .description("read access")
-                .build();
+            .scope("read")
+            .description("read access")
+            .build();
         SecurityReference securityReference = SecurityReference.builder()
-                .reference("test")
-                .scopes(authScopes)
-                .build();
+            .reference("test")
+            .scopes(authScopes)
+            .build();
 
         ArrayList<SecurityContext> securityContexts = newArrayList(SecurityContext.builder().securityReferences
-                (newArrayList(securityReference)).build());
+            (newArrayList(securityReference)).build());
         return new Docket(DocumentationType.SWAGGER_2)
-                .securitySchemes(newArrayList(new BasicAuth("test")))
-                .securityContexts(securityContexts)
-                .groupName("user-api")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(userOnlyEndpoints())
-                .build();
+            .securitySchemes(newArrayList(new BasicAuth("test")))
+            .securityContexts(securityContexts)
+            .groupName("user-api")
+            .apiInfo(apiInfo())
+            .select()
+            .paths(userOnlyEndpoints())
+            .build();
     }
 
     private Predicate<String> petstorePaths() {
         return or(
-                regex("/api/pet.*"),
-                regex("/api/user.*"),
-                regex("/api/store.*")
+            regex("/api/pet.*"),
+            regex("/api/user.*"),
+            regex("/api/store.*")
         );
     }
 
@@ -135,21 +137,21 @@ public class Application {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Springfox petstore API")
-                .description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum " +
-                        "has been the industry's standard dummy text ever since the 1500s, when an unknown printer "
-                        + "took a " +
-                        "galley of type and scrambled it to make a type specimen book. It has survived not only five " +
-                        "centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                        "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
-                        "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
-                        "versions of Lorem Ipsum.")
-                .termsOfServiceUrl("http://springfox.io")
-                .contact("springfox")
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
-                .version("2.0")
-                .build();
+            .title("Springfox petstore API")
+            .description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum " +
+                "has been the industry's standard dummy text ever since the 1500s, when an unknown printer "
+                + "took a " +
+                "galley of type and scrambled it to make a type specimen book. It has survived not only five " +
+                "centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
+                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
+                "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
+                "versions of Lorem Ipsum.")
+            .termsOfServiceUrl("http://springfox.io")
+            .contact("springfox")
+            .license("Apache License Version 2.0")
+            .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
+            .version("2.0")
+            .build();
     }
 
     @Bean
@@ -158,23 +160,23 @@ public class Application {
         AuthorizationScope[] scopes = new AuthorizationScope[1];
         scopes[0] = readScope;
         SecurityReference securityReference = SecurityReference.builder()
-                .reference("petstore_auth")
-                .scopes(scopes)
-                .build();
+            .reference("petstore_auth")
+            .scopes(scopes)
+            .build();
 
         return SecurityContext.builder()
-                .securityReferences(newArrayList(securityReference))
-                .forPaths(ant("/api/pet.*"))
-                .build();
+            .securityReferences(newArrayList(securityReference))
+            .forPaths(ant("/api/pet.*"))
+            .build();
     }
 
     @Bean
     SecurityScheme oauth() {
         return new OAuthBuilder()
-                .name("petstore_auth")
-                .grantTypes(grantTypes())
-                .scopes(scopes())
-                .build();
+            .name("petstore_auth")
+            .grantTypes(grantTypes())
+            .scopes(scopes())
+            .build();
     }
 
     @Bean
@@ -182,19 +184,28 @@ public class Application {
         return new ApiKey("api_key", "api_key", "header");
     }
 
+    /**
+     * 对用户进行权限控制
+     *
+     * @return
+     */
     List<AuthorizationScope> scopes() {
         return newArrayList(
-                new AuthorizationScope("write:pets", "modify pets in your account"),
-                new AuthorizationScope("read:pets", "read your pets"));
+            new AuthorizationScope("write:pets", "modify pets in your account"),
+            new AuthorizationScope("read:pets", "read your pets"));
     }
 
     List<GrantType> grantTypes() {
         GrantType grantType = new ImplicitGrantBuilder()
-                .loginEndpoint(new LoginEndpoint("http://petstore.swagger.io/api/oauth/dialog"))
-                .build();
+            .loginEndpoint(new LoginEndpoint("http://petstore.swagger.io/api/oauth/dialog"))
+            .build();
         return newArrayList(grantType);
     }
 
+    /**
+     * @return
+     * @note 安全口令
+     */
     @Bean
     public SecurityConfiguration securityInfo() {
         return new SecurityConfiguration("abc", "123", "pets", "petstore", "123", ApiKeyVehicle.HEADER, "", ",");

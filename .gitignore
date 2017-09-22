@@ -8,3 +8,7 @@ gradle-app.setting
 !gradle-wrapper.jar
 .java-version
 .idea
+springfox-demos.iml
+boot-swagger/out/production/resources/application.properties
+boot-static-docs/src/main/java/springfoxdemo/staticdocs/Application.java
+boot-static-docs/src/main/java/springfoxdemo/staticdocs/Application.java
